@@ -1,0 +1,14 @@
+<div class="columna">
+  <h2>{{ titulo }}</h2>
+
+  @if (tareas.length === 0) {
+    <p class="vacio">No hay tareas</p>
+  } @else {
+    @for (tarea of tareas; track tarea.id) {
+      <app-tarea-card 
+        [tarea]="tarea" 
+        (borrar)="borrarTarea.emit($event)"
+        (cambiarEstado)="cambiarEstadoTarea.emit($event)" />
+    }
+  }
+</div>

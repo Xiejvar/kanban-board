@@ -1,0 +1,12 @@
+<div class="tarea-card" [class]="'prioridad-' + tarea.prioridad">
+  <h3>{{ tarea.titulo }}</h3>
+  <p>{{ tarea.descripcion }}</p>
+  <div class="footer">
+    <span class="badge">{{ tarea.prioridad }}</span>
+    @if (tarea.fechaLimite) {
+      <span class="fecha">{{ tarea.fechaLimite }}</span>
+    }
+    <button (click)="onMover()">➡️</button>
+    <button (click)="onBorrar()">🗑</button>
+  </div>
+</div>
