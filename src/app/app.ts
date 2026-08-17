@@ -1,13 +1,18 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { Tablero } from './components/tablero/tablero';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Tablero],
+  standalone: true,
+  imports: [Tablero],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('kanban-board');
+  modoOscuro = signal(false);
+
+  toggleModoOscuro() {
+    this.modoOscuro.update(v => !v);
+    document.body.classList.toggle('dark-mode', this.modoOscuro());
+  }
 }

@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-app: linear-gradient(135deg, #f5f7fa 0%, #e9edf5 100%);
+  --bg-columna: #ebecf0;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
+  --bg-badge: #dfe1e6;
+  --bg-hover: #f0f1f3;
+  --text-principal: #172b4d;
+  --text-secundario: #5e6c84;
+  --text-terciario: #6b778c;
+  --border-color: #dfe1e6;
+  --shadow-color: rgba(0,0,0,0.1);
+}
+
+.dark-mode {
+  --bg-app: linear-gradient(135deg, #1a1d23 0%, #12141a 100%);
+  --bg-columna: #22262e;
+  --bg-card: #2a2f38;
+  --bg-input: #1e222a;
+  --bg-badge: #363b45;
+  --bg-hover: #363b45;
+  --text-principal: #e6e9ef;
+  --text-secundario: #a3adc2;
+  --text-terciario: #7a8499;
+  --border-color: #3a3f4a;
+  --shadow-color: rgba(0,0,0,0.4);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  transition: background 0.2s ease;
+}

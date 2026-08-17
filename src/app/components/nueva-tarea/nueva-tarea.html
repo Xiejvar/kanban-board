@@ -1,22 +1,30 @@
 <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="form-nueva-tarea">
-  <input 
-    formControlName="titulo" 
-    placeholder="Título de la tarea" 
-    [class.error]="formulario.get('titulo')?.invalid && formulario.get('titulo')?.touched" />
+  <div class="campo campo-titulo">
+    <input 
+      formControlName="titulo" 
+      placeholder="Título de la tarea" 
+      [class.error]="formulario.get('titulo')?.invalid && formulario.get('titulo')?.touched" />
 
-  @if (formulario.get('titulo')?.invalid && formulario.get('titulo')?.touched) {
-    <span class="mensaje-error">El título debe tener al menos 3 caracteres</span>
-  }
+    @if (formulario.get('titulo')?.invalid && formulario.get('titulo')?.touched) {
+      <span class="mensaje-error">El título debe tener al menos 3 caracteres</span>
+    }
+  </div>
 
-  <textarea 
-    formControlName="descripcion" 
-    placeholder="Descripción"></textarea>
+  <div class="campo campo-descripcion">
+    <textarea formControlName="descripcion" placeholder="Descripción" rows="1"></textarea>
+  </div>
 
-  <select formControlName="prioridad">
+  <select formControlName="prioridad" class="select-prioridad">
     <option value="baja">Baja</option>
     <option value="media">Media</option>
     <option value="alta">Alta</option>
   </select>
 
-  <button type="submit" [disabled]="formulario.invalid">Crear tarea</button>
+  <button type="submit" class="btn-primario" [disabled]="formulario.invalid">
+    {{ tareaEditando ? 'Guardar cambios' : 'Crear tarea' }}
+  </button>
+
+  @if (tareaEditando) {
+    <button type="button" class="btn-secundario" (click)="onCancelar()">Cancelar</button>
+  }
 </form>

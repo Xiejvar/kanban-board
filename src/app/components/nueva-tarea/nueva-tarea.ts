@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject, Input, OnChanges } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Tarea } from '../../models/tarea.model';
 
@@ -9,8 +9,11 @@ import { Tarea } from '../../models/tarea.model';
   templateUrl: './nueva-tarea.html',
   styleUrl: './nueva-tarea.scss'
 })
-export class NuevaTarea {
+export class NuevaTarea implements OnChanges {
+  @Input() tareaEditando: Tarea | null = null;
   @Output() crear = new EventEmitter<Tarea>();
+  @Output() actualizar = new EventEmitter<Tarea>();
+  @Output() cancelarEdicion = new EventEmitter<void>();
 
   private fb = inject(FormBuilder);
 
@@ -20,22 +23,43 @@ export class NuevaTarea {
     prioridad: ['media' as 'baja' | 'media' | 'alta', Validators.required]
   });
 
-  onSubmit() {
-    if (this.formulario.invalid) {
-      return;
+  ngOnChanges() {
+    if (this.tareaEditando) {
+      this.formulario.setValue({
+        titulo: this.tareaEditando.titulo,
+        descripcion: this.tareaEditando.descripcion,
+        prioridad: this.tareaEditando.prioridad
+      });
+    } else {
+      this.formulario.reset({ titulo: '', descripcion: '', prioridad: 'media' });
     }
+  }
+
+  onSubmit() {
+    if (this.formulario.invalid) return;
 
     const valores = this.formulario.value;
 
-    const nuevaTarea: Tarea = {
-      id: Date.now(), // truco simple para un id único sin backend real
-      titulo: valores.titulo!,
-      descripcion: valores.descripcion!,
-      prioridad: valores.prioridad!,
-      estado: 'pendiente'
-    };
+    if (this.tareaEditando) {
+      this.actualizar.emit({
+        ...this.tareaEditando,
+        titulo: valores.titulo!,
+        descripcion: valores.descripcion!,
+        prioridad: valores.prioridad!
+      });
+    } else {
+      this.crear.emit({
+        id: Date.now(),
+        titulo: valores.titulo!,
+        descripcion: valores.descripcion!,
+        prioridad: valores.prioridad!,
+        estado: 'pendiente'
+      });
+      this.formulario.reset({ titulo: '', descripcion: '', prioridad: 'media' });
+    }
+  }
 
-    this.crear.emit(nuevaTarea);
-    this.formulario.reset({ titulo: '', descripcion: '', prioridad: 'media' });
+  onCancelar() {
+    this.cancelarEdicion.emit();
   }
 }

@@ -1,21 +1,31 @@
-<app-nueva-tarea (crear)="onCrearTarea($event)" />
+<app-nueva-tarea 
+  [tareaEditando]="tareaEnEdicion"
+  (crear)="onCrearTarea($event)"
+  (actualizar)="onActualizarTarea($event)"
+  (cancelarEdicion)="onCancelarEdicion()" />
 
 <div class="tablero">
   <app-columna 
     titulo="Pendiente" 
+    estado="pendiente"
     [tareas]="tareasPendientes()" 
     (borrarTarea)="onBorrarTarea($event)"
-    (cambiarEstadoTarea)="onCambiarEstadoTarea($event)" />
+    (cambiarEstadoTarea)="onCambiarEstadoTarea($event)"
+    (editarTarea)="onEditarTarea($event)" />
 
   <app-columna 
     titulo="En progreso" 
+    estado="en-progreso"
     [tareas]="tareasEnProgreso()" 
     (borrarTarea)="onBorrarTarea($event)"
-    (cambiarEstadoTarea)="onCambiarEstadoTarea($event)" />
+    (cambiarEstadoTarea)="onCambiarEstadoTarea($event)"
+    (editarTarea)="onEditarTarea($event)" />
 
   <app-columna 
     titulo="Hecho" 
+    estado="hecho"
     [tareas]="tareasHechas()" 
     (borrarTarea)="onBorrarTarea($event)"
-    (cambiarEstadoTarea)="onCambiarEstadoTarea($event)" />
+    (cambiarEstadoTarea)="onCambiarEstadoTarea($event)"
+    (editarTarea)="onEditarTarea($event)" />
 </div>

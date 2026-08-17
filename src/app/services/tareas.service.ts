@@ -25,4 +25,14 @@ export class TareasService {
   borrarTarea(id: number) {
     this.tareas.update(lista => lista.filter(t => t.id !== id));
   }
+  actualizarTarea(tareaActualizada: Tarea) {
+    this.tareas.update(lista =>
+      lista.map(t => t.id === tareaActualizada.id ? tareaActualizada : t)
+    );
+  }
+  moverTarea(id: number, nuevoEstado: Tarea['estado']) {
+    this.tareas.update(lista =>
+      lista.map(t => t.id === id ? { ...t, estado: nuevoEstado } : t)
+    );
+  }
 }

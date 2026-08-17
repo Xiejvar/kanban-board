@@ -13,6 +13,7 @@ export class TareaCard {
   @Input() tarea!: Tarea;
   @Output() borrar = new EventEmitter<number>();
   @Output() cambiarEstado = new EventEmitter<{ id: number; estado: Tarea['estado'] }>();
+  @Output() editar = new EventEmitter<Tarea>();
 
   onBorrar() {
     this.borrar.emit(this.tarea.id);
@@ -26,5 +27,9 @@ export class TareaCard {
 
   onMover() {
     this.cambiarEstado.emit({ id: this.tarea.id, estado: this.siguienteEstado() });
+  }
+
+  onEditar() {
+    this.editar.emit(this.tarea);
   }
 }

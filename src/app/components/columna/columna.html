@@ -1,14 +1,29 @@
 <div class="columna">
-  <h2>{{ titulo }}</h2>
+  <div class="columna-header">
+    <h2>{{ titulo }}</h2>
+    <span class="contador">{{ tareas.length }}</span>
+  </div>
 
-  @if (tareas.length === 0) {
-    <p class="vacio">No hay tareas</p>
-  } @else {
-    @for (tarea of tareas; track tarea.id) {
-      <app-tarea-card 
-        [tarea]="tarea" 
-        (borrar)="borrarTarea.emit($event)"
-        (cambiarEstado)="cambiarEstadoTarea.emit($event)" />
+  <div 
+    cdkDropList
+    [cdkDropListData]="tareas"
+    [id]="estado"
+    [cdkDropListConnectedTo]="['pendiente', 'en-progreso', 'hecho']"
+    (cdkDropListDropped)="onDrop($event)"
+    class="lista-tareas">
+
+    @if (tareas.length === 0) {
+      <p class="vacio">No hay tareas</p>
+    } @else {
+      @for (tarea of tareas; track tarea.id) {
+        <div cdkDrag [cdkDragData]="tarea">
+          <app-tarea-card 
+            [tarea]="tarea" 
+            (borrar)="borrarTarea.emit($event)"
+            (cambiarEstado)="cambiarEstadoTarea.emit($event)"
+            (editar)="editarTarea.emit($event)" />
+        </div>
+      }
     }
-  }
+  </div>
 </div>

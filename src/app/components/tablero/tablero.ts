@@ -7,12 +7,14 @@ import { Tarea } from '../../models/tarea.model';
 @Component({
   selector: 'app-tablero',
   standalone: true,
-  imports: [Columna,NuevaTarea],
+  imports: [Columna, NuevaTarea],
   templateUrl: './tablero.html',
   styleUrl: './tablero.scss'
 })
 export class Tablero {
   private tareasService = inject(TareasService);
+
+  tareaEnEdicion: Tarea | null = null;
 
   tareasPendientes = computed(() =>
     this.tareasService.tareasLista().filter(t => t.estado === 'pendiente')
@@ -27,10 +29,25 @@ export class Tablero {
   onBorrarTarea(id: number) {
     this.tareasService.borrarTarea(id);
   }
+
   onCrearTarea(tarea: Tarea) {
     this.tareasService.añadirTarea(tarea);
   }
+
   onCambiarEstadoTarea(evento: { id: number; estado: Tarea['estado'] }) {
-  this.tareasService.cambiarEstado(evento.id, evento.estado);
+    this.tareasService.cambiarEstado(evento.id, evento.estado);
+  }
+
+  onEditarTarea(tarea: Tarea) {
+    this.tareaEnEdicion = tarea;
+  }
+
+  onActualizarTarea(tarea: Tarea) {
+    this.tareasService.actualizarTarea(tarea);
+    this.tareaEnEdicion = null;
+  }
+
+  onCancelarEdicion() {
+    this.tareaEnEdicion = null;
   }
 }
